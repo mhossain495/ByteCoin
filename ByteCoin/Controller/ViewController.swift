@@ -27,7 +27,8 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     // Called when user selects a row in user interface
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        print(coinManager.currencyArray[row])
+        let selectedCurrency = coinManager.currencyArray[row]
+        coinManager.getCoinPrice(for: selectedCurrency)
     }
 
     @IBOutlet weak var bitcoinLabel: UILabel!
