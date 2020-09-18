@@ -28,21 +28,23 @@ struct CoinManager {
              //3, Give the session a task
             let task = session.dataTask(with: url) { (data, response, error) in
                 if error != nil {
-                    self.delegate?.didFailWithError(error: error!)
-                    return // exits function if error with url
+                    //self.delegate?.didFailWithError(error: error!)
+                    //return // exits function if error with url
                 }
                 if let safeData = data {
-                    if let price = self.parseJSON(safeData) {
-                        self.delegate?didGetPrice(self, price: price)
-                    }
+                    //if let price = self.parseJSON(safeData) {
+                    let dataString = String(data: safeData, encoding: .utf8)
+                        //self.delegate?didGetPrice(self, price: price)
+                    print(dataString!)
+                }
                     
                     
                 }
-            }
+            
              //4. Start the task
             task.resume()
         }
         
-    }
-    
+
+}
 }
