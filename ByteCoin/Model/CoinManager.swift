@@ -8,13 +8,41 @@ import Foundation
 
 struct CoinManager {
     
-    let baseURL = "https://rest.coinapi.io/v1/exchangerate/BTC"
-    let apiKey = "YOUR_API_KEY_HERE"
+    let baseURL = "https://rest.coinapi.io/v1/exchangerate/BTC/"
+    let apiKey = "44120C57-C21D-45C7-99EE-8A316EF8AE53"
     
     let currencyArray = ["AUD", "BRL","CAD","CNY","EUR","GBP","HKD","IDR","ILS","INR","JPY","MXN","NOK","NZD","PLN","RON","RUB","SEK","SGD","USD","ZAR"]
-
+    
     func getCoinPrice(for currency: String) {
-        <#function body#>
+        let urlString = "\(baseURL)\(currency)?apikey=\(apiKey)"
+        performRequest(with: urlString)
+    }
+    
+    func performRequest(with urlString: String) {
+        // 1. create a url
+        if let url = URL(string: urlString) {
+            
+            // 2. Create a URLSession
+            let session = URLSession(configuration: .default)
+            
+             //3, Give the session a task
+            let task = session.dataTask(with: url) { (data, response, error) in
+                if error != nil {
+                    self.delegate?.didFailWithError(error: error!)
+                    return // exits function if error with url
+                }
+                if let safeData = data {
+                    if let price = self.parseJSON(safeData) {
+                        self.delegate?didGetPrice(self, price: price)
+                    }
+                    
+                    
+                }
+            }
+             //4. Start the task
+            task.resume()
+        }
+        
     }
     
 }
