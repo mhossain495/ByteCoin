@@ -5,13 +5,29 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, CoinManagerDelegate {
-    
-    
-    
+class ViewController: UIViewController, UIPickerViewDataSource {
     
     var coinManager = CoinManager()
     
+    @IBOutlet weak var bitcoinLabel: UILabel!
+    @IBOutlet weak var currencyLabel: UILabel!
+    @IBOutlet weak var currencyPicker: UIPickerView!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+        coinManager.delegate = self
+        
+        // Set current ViewController as dataSource and delegate
+        currencyPicker.dataSource = self
+        currencyPicker.delegate = self
+    }
+}
+
+//MARK: - UIPickerViewDelegate
+
+// extension of ViewController to add Protocol conformance
+extension ViewController: UIPickerViewDelegate {
     // Number of columns in picker
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         1
@@ -33,23 +49,12 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         coinManager.getCoinPrice(for: selectedCurrency)
     }
     
-    @IBOutlet weak var bitcoinLabel: UILabel!
-    @IBOutlet weak var currencyLabel: UILabel!
-    @IBOutlet weak var currencyPicker: UIPickerView!
-    
-    
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        coinManager.delegate = self
-        
-        // Set current ViewController as dataSource and delegate
-        currencyPicker.dataSource = self
-        currencyPicker.delegate = self
-        
-    }
+}
+
+//MARK: - CoinManagerDelegate
+
+// extension of ViewController to add Protocol conformance
+extension ViewController: CoinManagerDelegate {
     
     func didGetPrice(price: Double) {
         DispatchQueue.main.async {
@@ -61,9 +66,4 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         print(error)
     }
     
-    
 }
-
-
-
-
