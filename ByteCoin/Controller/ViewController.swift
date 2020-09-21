@@ -57,8 +57,15 @@ extension ViewController: UIPickerViewDelegate {
 extension ViewController: CoinManagerDelegate {
     
     func didGetPrice(price: Double) {
+        
+        // NumberFormatter object to convert values to decimal points with comma separator
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.minimumFractionDigits = 2
+        numberFormatter.maximumFractionDigits = 2
+        
         DispatchQueue.main.async {
-            self.bitcoinLabel.text = String(format: "%.2f", price)
+            self.bitcoinLabel.text = numberFormatter.string(from: NSNumber(value: price))
         }
     }
     
