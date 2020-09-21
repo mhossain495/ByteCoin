@@ -43,10 +43,11 @@ extension ViewController: UIPickerViewDelegate {
         return coinManager.currencyArray[row]
     }
     
-    // Called when user selects a row in user interface
+    // Called when user selects a currency or row in user interface
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let selectedCurrency = coinManager.currencyArray[row]
         coinManager.getCoinPrice(for: selectedCurrency)
+        currencyLabel.text = selectedCurrency
     }
     
 }
@@ -58,7 +59,7 @@ extension ViewController: CoinManagerDelegate {
     
     func didGetPrice(price: Double) {
         
-        // NumberFormatter object to convert values to decimal points with comma separator
+        // NumberFormatter object to convert values to 2 decimal points with comma separator
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         numberFormatter.minimumFractionDigits = 2
